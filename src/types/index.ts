@@ -46,6 +46,10 @@ export interface AxiosError extends Error{
 }
 
 export interface Axios {
+  interceptors:{
+    request:AxiosInterceptorManager<AxiosRequestConfig>,
+    response:AxiosInterceptorManager<AxiosResponse>
+  }
   request<T=any>(config:AxiosRequestConfig):AxiosPromise<T>
 
   get<T=any>(url:string,config?:AxiosRequestConfig):AxiosPromise<T>
@@ -68,4 +72,29 @@ export interface AxiosInstance extends Axios{
   <T=any>(config:AxiosRequestConfig):AxiosPromise<T>
 
   <T=any>(url:string,config?:AxiosRequestConfig):AxiosPromise<T>
+}
+
+/**
+ * 对于 resolve 函数的参数
+ * 请求拦截器是 AxiosRequestConfig 类型的
+ * 而响应拦截器是 AxiosResponse 类型
+ * 对于 reject 函数的参数类型则是 any 类型
+ */
+export interface AxiosInterceptorManager<T> {
+  // 添加拦截器，返回拦截器的id编号
+  use(resolved:ResolvedFn<T>, rejected?:RejectedFn):number
+  // 删除拦截器的方法
+  eject(id:number):void
+}
+
+/**
+ * 返回类型为T时为同步逻辑
+ * 返回类型为Promise时为异步逻辑
+ */
+export interface ResolvedFn<T>{
+  (val:T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (err:any):any
 }
