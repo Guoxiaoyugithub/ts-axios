@@ -18,7 +18,7 @@ import qs from 'qs'
 // }).then((res) => {
 //   console.log(res.data)
 // })
-axios({
+const instance = axios.create({
   transformRequest: [(function(data) {
     return qs.stringify(data)
   }), ...(axios.defaults.transformRequest as AxiosTransformer[])],
@@ -27,7 +27,10 @@ axios({
       data.b = 2
     }
     return data
-  }],
+  }]
+})
+
+instance({
   url: '/config/post',
   method: 'post',
   data: {

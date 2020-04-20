@@ -79,6 +79,9 @@ export interface AxiosInstance extends Axios{
   <T=any>(url:string,config?:AxiosRequestConfig):AxiosPromise<T>
 }
 
+export interface AxiosStatic extends AxiosInstance {
+  create(config?:AxiosRequestConfig):AxiosInstance
+}
 /**
  * 对于 resolve 函数的参数
  * 请求拦截器是 AxiosRequestConfig 类型的
