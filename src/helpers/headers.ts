@@ -1,5 +1,6 @@
 import { deepMerge, isPlainObject } from './util'
 import { Method } from '../types'
+import { head } from 'shelljs'
 
 function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
@@ -42,18 +43,26 @@ export function parseHeaders(headers:string):any{
   return parsed
 }
 
+/**
+ * Headers属性扁平化
+ * 通过 deepMerge 的方式把 common、post 的属性拷贝到 headers 这一级
+ * 然后再把 common、post 这些属性删掉
+ */
 export function flattenHeaders(headers: any, method: Method): any {
   if (!headers) {
     return headers
   }
   console.log(headers.common || {}, headers[method] || {}, headers)
+  // 把多个对象的属性合在一个对象上
   headers = deepMerge(headers.common || {}, headers[method] || {}, headers)
 
-  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common','method']
+  headers = deepMerge(headers,{})
 
-  methodsToDelete.forEach(method => {
-    delete headers[method]
-  })
+  // const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common','method']
+
+  // methodsToDelete.forEach(method => {
+  //   delete headers[method]
+  // })
   console.log(headers)
   return headers
 }
