@@ -13,7 +13,7 @@ export function transformRequest(data: any): any {
   return data
 }
 
-export  function transformRespons(data:any):any {
+export function transformResponse(data:any):any {
   if(typeof data === 'string'){
     try {
       data = JSON.parse(data)

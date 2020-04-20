@@ -23,7 +23,6 @@ export function extend<T,U>(to:T,from:U):T&U{
  */
 export function deepMerge(...objs: any[]): any {
   const result = Object.create(null)
-
   objs.forEach(obj => {
     if (obj) {
       // 遍历obj中每一个属性
@@ -35,7 +34,6 @@ export function deepMerge(...objs: any[]): any {
           if (isPlainObject(result[key])) {
             result[key] = deepMerge(result[key], val)
           } else {
-            // result[key] = deepMerge({}, val)
             const secresult = deepMerge({}, val)
             Object.keys(secresult).forEach(seckey=>{
               result[seckey] = secresult[seckey]
@@ -43,7 +41,7 @@ export function deepMerge(...objs: any[]): any {
           }
         // 不是普通对象，直接赋值
         } else {
-          console.log(`result[${key}] = ${val}`)
+          // console.log(`result[${key}] = ${val}`)
           result[key] = val
         }
       })

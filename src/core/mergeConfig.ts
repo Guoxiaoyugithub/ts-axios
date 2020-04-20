@@ -1,10 +1,6 @@
 import { AxiosRequestConfig } from '../types'
 import { isPlainObject,deepMerge} from '../helpers/util'
 
-const strats = Object.create(null)
-const stratsKeysFromVal2 = ['url','params','data']
-const stratsKeysDeepMerge = ['headers'
-]
 /**
  * 默认的合并策略，优先取val2中的值
  */
@@ -21,6 +17,9 @@ function fromVal2Strat(val1:any,val2:any):any {
   }
 }
 
+/**
+ * 深度合并
+ */
 function deepMergeStrat(val1:any,val2:any):any{
   if(isPlainObject(val2)){
     return deepMerge(val1,val2)
@@ -33,6 +32,10 @@ function deepMergeStrat(val1:any,val2:any):any{
   }
 }
 
+const strats = Object.create(null)
+const stratsKeysFromVal2 = ['url','params','data']
+const stratsKeysDeepMerge = ['headers']
+
 stratsKeysFromVal2.forEach(key=>{
   strats[key] = fromVal2Strat
 })
@@ -41,6 +44,11 @@ stratsKeysDeepMerge.forEach(key=>{
   strats[key] = deepMergeStrat
 })
 
+/**
+ * 合并请求的配置文件
+ * @config1 默认的配置参数
+ * @config2 传入的配置参数
+ */
 export default function mergeConfig(config1:AxiosRequestConfig,config2?:AxiosRequestConfig):AxiosRequestConfig {
   if(!config2){
     config2 = {}
