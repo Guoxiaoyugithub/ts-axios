@@ -78,6 +78,18 @@ router.post('/config/post',function(req,res) {
   res.json(req.body)
 })
 
+router.get('/cancel/get',function(req,res) {
+  setTimeout(()=>{
+    return res.json('hello')
+  },1000)
+})
+
+router.post('/cancel/post',function(req,res){
+  setTimeout(()=>{
+    return res.json(req.body)
+  },1000)
+})
+
 registerExtendRouter()
 app.use(router)
 
